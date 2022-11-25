@@ -27,11 +27,13 @@ public class Client {
     @Column(unique = true)
     private Long phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
+    @ToString.Exclude
     Address address;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<Order> orders = new HashSet<>();
 
     public Client(String name, String surname, Long phoneNumber, Address address) {

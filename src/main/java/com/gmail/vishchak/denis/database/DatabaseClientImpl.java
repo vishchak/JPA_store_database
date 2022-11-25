@@ -56,19 +56,23 @@ public class DatabaseClientImpl implements DatabaseInterface {
     }
 
     public static void addProduct(EntityManager em) {
-        em.getTransaction().begin();
-        try {
-            Product[] products = new Product[]{new Product("Book"), new Product("Lamp"), new Product("Laptop"), new Product("Onion")};
-            for (Product p :
-                    products) {
-                em.persist(p);
+        TypedQuery<Product> typedQuery = em.createQuery("SELECT c FROM Product c", Product.class);
+        List<Product> productList = typedQuery.getResultList();
+        if (productList.isEmpty()) {
+            em.getTransaction().begin();
+            try {
+                Product[] products = new Product[]{new Product("Book"), new Product("Lamp"), new Product("Laptop"), new Product("Onion")};
+                for (Product p :
+                        products) {
+                    em.persist(p);
+                }
+                em.getTransaction().commit();
+                return;
+            } catch (Exception ex) {
+                em.getTransaction().rollback();
             }
-            em.getTransaction().commit();
-            return;
-        } catch (Exception ex) {
-            em.getTransaction().rollback();
-        }
-        throw new RuntimeException();
+            throw new RuntimeException();
+        } else return;
     }
 
 
@@ -102,19 +106,25 @@ public class DatabaseClientImpl implements DatabaseInterface {
     }
 
     @Override
-    public void add(EntityManager em, Scanner sc) {
+    public Long add(EntityManager em, Scanner sc) {
         Client client = addClient(em, sc);
         addProduct(em);
-        client.addOrder(addOrder(em, sc, client));
+        Order order = addOrder(em, sc, client);
+        client.addOrder(order);
+        return order.getNumber();
     }
 
     @Override
-    public void findByDate(EntityManager em, Date date) {
+    public void findByDate(EntityManager em, Date from, Date to) {
 
     }
+
 
     @Override
     public void findByNumber(EntityManager em, Long number) {
-
+        TypedQuery<Order> typedQuery = em.createQuery("SELECT c FROM Order c WHERE c.number = :number", Order.class);
+        typedQuery.setParameter("number", number);
+        Order order = typedQuery.getSingleResult();
+        System.out.println(order);
     }
 }

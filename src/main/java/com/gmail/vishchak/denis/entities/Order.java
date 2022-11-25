@@ -19,19 +19,21 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(nullable = false, updatable = false)
     private Long number;
 
-//    @Temporal(TemporalType.DATE)
+    //    @Temporal(TemporalType.DATE)
     private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     Client client;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "orders_goods",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "goods_id"))
+    @ToString.Exclude
     private List<Product> products = new ArrayList<>();
 
     public Order(Long number, LocalDate date) {
@@ -40,7 +42,7 @@ public class Order {
     }
 
     public void addProducts(Product product) {
-            products.add(product);
-            product.getOrders().add(this);
+        products.add(product);
+        product.getOrders().add(this);
     }
 }

@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.Scanner;
 
 public interface DatabaseInterface {
-    public void add(EntityManager em, Scanner sc);
-    public void findByDate(EntityManager em, Date date);
+    public Long add(EntityManager em, Scanner sc);
+    public void findByDate(EntityManager em, Date from, Date to);
 
     public void findByNumber(EntityManager em, Long number);
 }

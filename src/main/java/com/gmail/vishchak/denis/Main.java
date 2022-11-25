@@ -15,12 +15,16 @@ public class Main {
 
     static Scanner sc;
 
+    static DatabaseClientImpl db;
+
     public static void main(String[] args) {
+        db = new DatabaseClientImpl();
         emf = Persistence.createEntityManagerFactory("StoreJPA");
         em = emf.createEntityManager();
         sc = new Scanner(System.in);
 
-        new DatabaseClientImpl().add(em,sc);
 
+        Long orderNumber = db.add(em, sc);
+        db.findByNumber(em, orderNumber);
     }
 }
