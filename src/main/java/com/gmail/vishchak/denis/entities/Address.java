@@ -1,11 +1,16 @@
 package com.gmail.vishchak.denis.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
+
 @Entity
-@Data
+@Table
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,4 +25,10 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     Client client;
+
+    public Address(String city, String street, String unit) {
+        this.city = city;
+        this.street = street;
+        this.unit = unit;
+    }
 }

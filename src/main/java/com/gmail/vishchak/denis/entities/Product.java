@@ -1,13 +1,19 @@
 package com.gmail.vishchak.denis.entities;
 
-import lombok.Data;
+import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
-@Data
+@Table
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +23,12 @@ public class Product {
     private String productName;
 
     @ManyToMany(mappedBy = "products")
+    @ToString.Exclude
     private List<Order> orders = new ArrayList<>();
+
+    public Product(String productName) {
+        this.productName = productName;
+    }
 
     public void addOrder(Order order) {
         orders.add(order);

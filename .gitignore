@@ -1,3 +1,12 @@
-
 /src/test/
 /.idea/
+/target/classes/com/gmail/vishchak/denis/entities/Address.class
+/target/test-classes/com/gmail/vishchak/denis/AppTest.class
+/target/classes/com/gmail/vishchak/denis/entities/Client.class
+/target/classes/com/gmail/vishchak/denis/database/DatabaseClientImpl.class
+/target/classes/com/gmail/vishchak/denis/database/DatabaseInterface.class
+/target/classes/com/gmail/vishchak/denis/Main.class
+/src/main/java/com/gmail/vishchak/denis/Main.java
+/target/classes/com/gmail/vishchak/denis/entities/Order.class
+/target/classes/META-INF/persistence.xml
+/target/classes/com/gmail/vishchak/denis/entities/Product.class
