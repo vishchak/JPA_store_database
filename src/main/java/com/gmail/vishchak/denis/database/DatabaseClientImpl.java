@@ -8,6 +8,7 @@ import com.gmail.vishchak.denis.entities.Product;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -72,7 +73,7 @@ public class DatabaseClientImpl implements DatabaseInterface {
                 em.getTransaction().rollback();
             }
             throw new RuntimeException();
-        } else return;
+        }
     }
 
 
@@ -116,10 +117,20 @@ public class DatabaseClientImpl implements DatabaseInterface {
 
     @Override
     public void findByDate(EntityManager em, Date from, Date to) {
-
+        TypedQuery<Order> typedQuery = em.createQuery("SELECT c FROM Order c WHERE c.date BETWEEN :from AND :to", Order.class);
+        typedQuery.setParameter("from", from.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate());
+        typedQuery.setParameter("to", to.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate());
+        List<Order> orders = typedQuery.getResultList();
+        for (Order o :
+                orders) {
+            System.out.println(o);
+        }
     }
-
-
+    
     @Override
     public void findByNumber(EntityManager em, Long number) {
         TypedQuery<Order> typedQuery = em.createQuery("SELECT c FROM Order c WHERE c.number = :number", Order.class);

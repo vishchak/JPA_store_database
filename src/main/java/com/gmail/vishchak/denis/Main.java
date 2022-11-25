@@ -5,6 +5,7 @@ import com.gmail.vishchak.denis.database.DatabaseClientImpl;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -23,8 +24,8 @@ public class Main {
         em = emf.createEntityManager();
         sc = new Scanner(System.in);
 
-
         Long orderNumber = db.add(em, sc);
         db.findByNumber(em, orderNumber);
+        db.findByDate(em, new Date(2020 - 1 - 1), new Date());
     }
 }
